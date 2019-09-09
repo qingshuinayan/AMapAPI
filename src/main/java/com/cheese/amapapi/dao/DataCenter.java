@@ -1,14 +1,11 @@
 package com.cheese.amapapi.dao;
 
 import com.cheese.amapapi.exception.JSException;
-import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
