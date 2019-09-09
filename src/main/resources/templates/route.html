@@ -1,0 +1,109 @@
+<html xmlns:th="http://www.springframework.org/schema/mvc">
+<script type="application/javascript" th:src="@{https://webapi.amap.com/maps(v='1.4.15',plugin='AMap.Transfer,AMap.Driving',key=${apiKey})}" ></script>
+<body></body>
+
+<script>
+    function routeDriver(id, sX, sY, eX, eY, policy) {
+        let response = "";
+        let policySign = AMap.DrivingPolicy.LEAST_DISTANCE;
+        switch (policy) {
+            case "LEAST_TIME":
+                policySign = AMap.DrivingPolicy.LEAST_TIME;
+                break;
+            case "LEAST_FEE":
+                policySign = AMap.DrivingPolicy.LEAST_FEE;
+                break;
+            case "REAL_TRAFFIC":
+                policySign = AMap.DrivingPolicy.REAL_TRAFFIC;
+                break;
+            default:
+                policySign = AMap.DrivingPolicy.LEAST_DISTANCE;
+                break;
+        }
+
+        AMap.plugin('AMap.Driving', () => {
+            var driving = new AMap.Driving({ policy: policySign });
+            var startLngLat = [sX * 1.0, sY * 1.0];
+            var endLngLat = [eX * 1.0, eY * 1.0];
+
+            driving.search(startLngLat, endLngLat, (status, result) => {
+                let resultBean = {
+                    id: id,
+                    data: JSON.stringify(result)
+                };
+                alert(JSON.stringify(resultBean));
+            });
+        });
+    }
+
+    function routeBus(id, sX, sY, eX, eY, policy, city) {
+        var policySign = AMap.TransferPolicy.LEAST_WALK;
+        switch (policy) {
+            case "LEAST_TIME":
+                policySign = AMap.TransferPolicy.LEAST_TIME;
+                break;
+            case "LEAST_FEE":
+                policySign = AMap.TransferPolicy.LEAST_FEE;
+                break;
+            case "LEAST_TRANSFER":
+                policySign = AMap.TransferPolicy.LEAST_TRANSFER;
+                break;
+            case "MOST_COMFORT":
+                policySign = AMap.TransferPolicy.MOST_COMFORT;
+                break;
+            case "NO_SUBWAY":
+                policySign = AMap.TransferPolicy.NO_SUBWAY;
+                break;
+            default:
+                policySign = AMap.TransferPolicy.LEAST_WALK;
+                break;
+        }
+
+        AMap.plugin('AMap.Transfer', function () {
+            var bus = new AMap.Transfer({ policy: policySign, city: city });
+            var startLngLat = [sX * 1.0, sY * 1.0];
+            var endLngLat = [eX * 1.0, eY * 1.0];
+
+            bus.search(startLngLat, endLngLat, function (status, result) {
+                let resultBean = {
+                    id: id,
+                    data: JSON.stringify(result)
+                };
+                alert(JSON.stringify(resultBean));
+            })
+        })
+    }
+
+    function routeWalk(id, sX, sY, eX, eY) {
+        AMap.plugin('AMap.Walking', () => {
+            var walking = new AMap.Walking();
+            var startLngLat = [sX * 1.0, sY * 1.0];
+            var endLngLat = [eX * 1.0, eY * 1.0];
+
+            walking.search(startLngLat, endLngLat, (status, result) => {
+                let resultBean = {
+                    id: id,
+                    data: JSON.stringify(result)
+                };
+                alert(JSON.stringify(resultBean));
+            });
+        });
+    }
+
+    function routeRide(id, sX, sY, eX, eY) {
+        AMap.plugin('AMap.Riding', () => {
+            var riding = new AMap.Riding();
+            var startLngLat = [sX * 1.0, sY * 1.0];
+            var endLngLat = [eX * 1.0, eY * 1.0];
+
+            riding.search(startLngLat, endLngLat, (status, result) => {
+                let resultBean = {
+                    id: id,
+                    data: JSON.stringify(result)
+                };
+                alert(JSON.stringify(resultBean));
+            });
+        });
+    }
+</script>
+</html>

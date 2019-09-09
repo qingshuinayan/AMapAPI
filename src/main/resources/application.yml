@@ -1,0 +1,14 @@
+amap:
+  api:
+    snowflake:
+      data-center-id: 1
+      machine-id: 2
+    key: <你申请的高德地图 JS版本 API-Key>
+
+spring:
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+
+server:
+  port: 1111

@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.springframework.org/schema/mvc">
+<script type="application/javascript" th:src="@{https://webapi.amap.com/maps(v='1.4.15',plugin='AMap.Transfer,AMap.Driving',key=${apiKey})}" ></script>
+<body></body>
+
+<script>
+    function geocode(id, address, city) {
+        AMap.plugin('AMap.Geocoder', () => {
+            let geocoder = new AMap.Geocoder({city: city});
+            geocoder.getLocation(address,  (status, result) => {
+                let resultBean = {
+                    id: id,
+                    data: JSON.stringify(result)
+                };
+                alert(JSON.stringify(resultBean));
+            });
+        });
+    }
+
+    function reGeocode(id, x, y) {
+        AMap.plugin('AMap.Geocoder', () => {
+            let geocoder = new AMap.Geocoder();
+            let point = [x , y];
+            geocoder.getAddress(point, (status, result) => {
+                let resultBean = {
+                    id: id,
+                    data: JSON.stringify(result)
+                };
+                alert(JSON.stringify(resultBean));
+            });
+        });
+    }
+</script>
+</html>
