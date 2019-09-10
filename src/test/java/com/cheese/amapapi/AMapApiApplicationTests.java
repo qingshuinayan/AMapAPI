@@ -35,11 +35,11 @@ public class AMapApiApplicationTests {
 
         AtomicInteger failedNum = new AtomicInteger();
         AtomicInteger successNum = new AtomicInteger();
-        Integer loopNum = 100;
+        Integer loopNum = 1000;
         Date startTime = new Date();
 
         CountDownLatch wait = new CountDownLatch(loopNum);
-        ExecutorService threadPool = Executors.newFixedThreadPool(10);
+        ExecutorService threadPool = Executors.newFixedThreadPool(100);
         for (int i = 0 ; i < loopNum; i++) {
             threadPool.submit(() -> {
                 try {
@@ -60,7 +60,7 @@ public class AMapApiApplicationTests {
             });
         }
 
-        wait.await(100, TimeUnit.SECONDS);
+        wait.await(200, TimeUnit.SECONDS);
 
         System.out.println("[All]: " + loopNum);
         System.out.println("[Failed]: " + failedNum.get());

@@ -1,17 +1,10 @@
 package com.cheese.amapapi.dao;
 
-import com.cheese.amapapi.bean.CallbackBean;
 import com.cheese.amapapi.util.JSCallUtil;
 import com.cheese.amapapi.util.SnowFlakeUtil;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Icemap
@@ -30,8 +23,10 @@ public class RouteDao {
     public String getDriverPlan (Double sX, Double sY, Double eX, Double eY, String policy) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
         WebClient client = new WebClient();
-        return jsCallUtil.callJSFunc(client, center.getRoutePage(client),
+        String result = jsCallUtil.callJSFunc(client, center.getRoutePage(client),
                 buildDriverJSFunc(callbackId, policy, sX, sY, eX, eY), callbackId);
+        client.close();
+        return result;
     }
 
     public String getBusPlan (Double sX, Double sY, Double eX, Double eY, String cityName, String policy) throws InterruptedException {

@@ -1,17 +1,16 @@
 package com.cheese.amapapi.dao;
 
 import com.cheese.amapapi.exception.JSException;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.URL;
+import java.util.logging.Level;
 
 /**
  * @author Icemap
@@ -26,7 +25,15 @@ public class DataCenter {
         return environment.getProperty("local.server.port");
     }
 
-    public synchronized HtmlPage getRoutePage (WebClient webClient) {
+    @PostConstruct
+    public void onInit () {
+        java.util.logging.Logger.getLogger("c.g.htmlunit").setLevel(Level.OFF);
+        java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+        java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
+
+    }
+
+    public HtmlPage getRoutePage (WebClient webClient) {
         try {
             return webClient.getPage("http://localhost:" + getPort() + "/route.html");
         } catch (IOException e) {
