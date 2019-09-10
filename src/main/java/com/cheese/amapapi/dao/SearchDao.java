@@ -2,6 +2,7 @@ package com.cheese.amapapi.dao;
 
 import com.cheese.amapapi.util.JSCallUtil;
 import com.cheese.amapapi.util.SnowFlakeUtil;
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,37 +21,44 @@ public class SearchDao {
 
     public String getAutoComplete (String keyword, String city) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getSearchPage(), buildAutoCompleteJSFunc(callbackId, keyword, city), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getSearchPage(client), buildAutoCompleteJSFunc(callbackId, keyword, city), callbackId);
     }
 
     public String getPlaceSearch (String keyword, String city, String type) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getSearchPage(), buildPlaceSearchJSFunc(callbackId, keyword, city, type), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getSearchPage(client), buildPlaceSearchJSFunc(callbackId, keyword, city, type), callbackId);
     }
 
     public String getPlaceSearchByCenter (String keyword, String type, Double x, Double y, Double r) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getSearchPage(), buildPlaceSearchByCenterJSFunc(callbackId, keyword, type, x, y, r), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getSearchPage(client), buildPlaceSearchByCenterJSFunc(callbackId, keyword, type, x, y, r), callbackId);
     }
 
     public String getPlaceSearchByEnvelop (String keyword, String type, Double left, Double top, Double right, Double bottom) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getSearchPage(), buildPlaceSearchByEnvelopJSFunc(callbackId, keyword, type, left, top, right, bottom), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getSearchPage(client), buildPlaceSearchByEnvelopJSFunc(callbackId, keyword, type, left, top, right, bottom), callbackId);
     }
 
     public String getDistrictSearch (String keyword, String level, Boolean border, Integer subLevel) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getSearchPage(), buildDistrictSearchJSFunc(callbackId, keyword, level, border, subLevel), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getSearchPage(client), buildDistrictSearchJSFunc(callbackId, keyword, level, border, subLevel), callbackId);
     }
 
     public String getBusLineSearch (String keyword, String city) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getSearchPage(), buildBusLineSearchJSFunc(callbackId, keyword, city), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getSearchPage(client), buildBusLineSearchJSFunc(callbackId, keyword, city), callbackId);
     }
 
     public String getBusStationSearch (String keyword, String city) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getSearchPage(), buildBusStationSearchJSFunc(callbackId, keyword, city), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getSearchPage(client), buildBusStationSearchJSFunc(callbackId, keyword, city), callbackId);
     }
 
     private String buildAutoCompleteJSFunc (String callbackId, String keyword, String city) {

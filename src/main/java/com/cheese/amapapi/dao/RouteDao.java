@@ -3,6 +3,7 @@ package com.cheese.amapapi.dao;
 import com.cheese.amapapi.bean.CallbackBean;
 import com.cheese.amapapi.util.JSCallUtil;
 import com.cheese.amapapi.util.SnowFlakeUtil;
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +29,27 @@ public class RouteDao {
 
     public String getDriverPlan (Double sX, Double sY, Double eX, Double eY, String policy) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getRoutePage(), buildDriverJSFunc(callbackId, policy, sX, sY, eX, eY), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getRoutePage(client),
+                buildDriverJSFunc(callbackId, policy, sX, sY, eX, eY), callbackId);
     }
 
     public String getBusPlan (Double sX, Double sY, Double eX, Double eY, String cityName, String policy) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getRoutePage(), buildBusJSFunc(callbackId, policy, sX, sY, eX, eY, cityName), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getRoutePage(client), buildBusJSFunc(callbackId, policy, sX, sY, eX, eY, cityName), callbackId);
     }
 
     public String getWalkPlan (Double sX, Double sY, Double eX, Double eY) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getRoutePage(), buildWalkJSFunc(callbackId, sX, sY, eX, eY), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getRoutePage(client), buildWalkJSFunc(callbackId, sX, sY, eX, eY), callbackId);
     }
 
     public String getRidePlan (Double sX, Double sY, Double eX, Double eY) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getRoutePage(), buildRideJSFunc(callbackId, sX, sY, eX, eY), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getRoutePage(client), buildRideJSFunc(callbackId, sX, sY, eX, eY), callbackId);
     }
 
     private String buildBusJSFunc (String callbackId, String policy, Double sX, Double sY, Double eX, Double eY, String cityName) {

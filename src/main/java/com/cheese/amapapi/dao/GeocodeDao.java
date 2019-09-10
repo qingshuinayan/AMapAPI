@@ -2,6 +2,7 @@ package com.cheese.amapapi.dao;
 
 import com.cheese.amapapi.util.JSCallUtil;
 import com.cheese.amapapi.util.SnowFlakeUtil;
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +21,14 @@ public class GeocodeDao {
 
     public String getGeocode (String address, String city) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getGeoCodePage(), buildGeocodeJSFunc(callbackId, address, city), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getGeoCodePage(client), buildGeocodeJSFunc(callbackId, address, city), callbackId);
     }
 
     public String getReGeocode (Double x, Double y) throws InterruptedException {
         String callbackId = snowFlakeUtil.nextId() + "";
-        return jsCallUtil.callJSFunc(center.getGeoCodePage(), buildReGeocodeJSFunc(callbackId, x, y), callbackId);
+        WebClient client = new WebClient();
+        return jsCallUtil.callJSFunc(client, center.getGeoCodePage(client), buildReGeocodeJSFunc(callbackId, x, y), callbackId);
     }
 
     private String buildGeocodeJSFunc (String callbackId, String address, String city) {

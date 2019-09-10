@@ -3,6 +3,7 @@ package com.cheese.amapapi.dao;
 import com.cheese.amapapi.exception.JSException;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebWindow;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * @author Icemap
@@ -19,23 +21,12 @@ import java.io.IOException;
 public class DataCenter {
     @Autowired
     Environment environment;
-    private WebClient webClient;
-
-    @PostConstruct
-    public void onInit () {
-        webClient = new WebClient();
-        webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-    }
 
     public String getPort (){
         return environment.getProperty("local.server.port");
     }
 
-    public WebClient getWebClient () {
-        return webClient;
-    }
-
-    public HtmlPage getRoutePage () {
+    public synchronized HtmlPage getRoutePage (WebClient webClient) {
         try {
             return webClient.getPage("http://localhost:" + getPort() + "/route.html");
         } catch (IOException e) {
@@ -44,7 +35,7 @@ public class DataCenter {
         }
     }
 
-    public HtmlPage getGeoCodePage () {
+    public HtmlPage getGeoCodePage (WebClient webClient) {
         try {
             return webClient.getPage("http://localhost:" + getPort() + "/geocode.html");
         } catch (IOException e) {
@@ -53,7 +44,7 @@ public class DataCenter {
         }
     }
 
-    public HtmlPage getSearchPage () {
+    public HtmlPage getSearchPage (WebClient webClient) {
         try {
             return webClient.getPage("http://localhost:" + getPort() + "/search.html");
         } catch (IOException e) {
